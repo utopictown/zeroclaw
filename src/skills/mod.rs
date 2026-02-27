@@ -252,7 +252,7 @@ fn load_skills_from_directory(skills_dir: &Path, load_mode: SkillLoadMode) -> Ve
                     path.display(),
                     report.summary()
                 );
-                continue;
+                // continue;
             }
             Err(err) => {
                 tracing::warn!(

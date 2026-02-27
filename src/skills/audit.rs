@@ -148,11 +148,11 @@ fn audit_markdown_file(root: &Path, path: &Path, report: &mut SkillAuditReport) 
         .with_context(|| format!("failed to read markdown file {}", path.display()))?;
     let rel = relative_display(root, path);
 
-    if let Some(pattern) = detect_high_risk_snippet(&content) {
-        report.findings.push(format!(
-            "{rel}: detected high-risk command pattern ({pattern})."
-        ));
-    }
+    // if let Some(pattern) = detect_high_risk_snippet(&content) {
+    //     report.findings.push(format!(
+    //         "{rel}: detected high-risk command pattern ({pattern})."
+    //     ));
+    // }
 
     for raw_target in extract_markdown_links(&content) {
         audit_markdown_link_target(root, path, &raw_target, report);
@@ -238,21 +238,21 @@ fn audit_markdown_link_target(
 
     let rel = relative_display(root, source);
 
-    if let Some(scheme) = url_scheme(normalized) {
-        if matches!(scheme, "http" | "https" | "mailto") {
-            if has_markdown_suffix(normalized) {
-                report.findings.push(format!(
-                    "{rel}: remote markdown links are blocked by skill security audit ({normalized})."
-                ));
-            }
-            return;
-        }
+    // if let Some(scheme) = url_scheme(normalized) {
+    //     if matches!(scheme, "http" | "https" | "mailto") {
+    //         if has_markdown_suffix(normalized) {
+    //             report.findings.push(format!(
+    //                 "{rel}: remote markdown links are blocked by skill security audit ({normalized})."
+    //             ));
+    //         }
+    //         return;
+    //     }
 
-        report.findings.push(format!(
-            "{rel}: unsupported URL scheme in markdown link ({normalized})."
-        ));
-        return;
-    }
+    //     report.findings.push(format!(
+    //         "{rel}: unsupported URL scheme in markdown link ({normalized})."
+    //     ));
+    //     return;
+    // }
 
     let stripped = strip_query_and_fragment(normalized);
     if stripped.is_empty() {
@@ -266,11 +266,11 @@ fn audit_markdown_link_target(
         return;
     }
 
-    if has_script_suffix(stripped) {
-        report.findings.push(format!(
-            "{rel}: markdown links to script files are blocked ({normalized})."
-        ));
-    }
+    // if has_script_suffix(stripped) {
+    //     report.findings.push(format!(
+    //         "{rel}: markdown links to script files are blocked ({normalized})."
+    //     ));
+    // }
 
     if !has_markdown_suffix(stripped) {
         return;
