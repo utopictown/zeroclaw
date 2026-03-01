@@ -2486,7 +2486,7 @@ impl Default for AutonomyConfig {
             forbidden_paths: vec![
                 "/etc".into(),
                 "/root".into(),
-                "/home".into(),
+                // "/home".into(),
                 "/usr".into(),
                 "/bin".into(),
                 "/sbin".into(),
